@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\UserController;
  
 Route::get('/login', [LoginController::class, 'create'])
     ->middleware('guest')
@@ -32,6 +32,18 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
 
+//=================TUGAS 2===============//
 Route::get('/about', function () {
     return 'Toko POS merupakan aplikasi yang digunakan untuk membantu proses penjualan, pengelolaan produk, dan transaksi toko.';
 });
+//=======================================//
+//=================TUGAS 4===============//
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('users', UserController::class);
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth')->name('dashboard');
+
+//==============PRAKTIKUM 5===================//
