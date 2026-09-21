@@ -46,4 +46,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
-//==============PRAKTIKUM 5===================//
+//==============TUGAS 5===================//
+Route::get('/pos/history', function () {
+    return 'Riwayat Transaksi Saya';
+})->name('pos.history');
