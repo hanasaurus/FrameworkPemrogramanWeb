@@ -17,5 +17,11 @@ class Product extends Model
     {
         return $this->hasMany(TransactionDetail::class);
     }
-}
 
+//-----------------TUGAS PRAKTIKUM 6--------------//
+
+    public function getPriceRupiahAttribute()
+    {
+        return 'Rp ' . number_format($this->price, 0, ',', '.');
+    }
+}
