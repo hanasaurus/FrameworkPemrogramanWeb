@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UserController;
+Use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
  
 Route::get('/login', [LoginController::class, 'create'])
     ->middleware('guest')
@@ -50,3 +52,7 @@ Route::get('/dashboard', function () {
 Route::get('/pos/history', function () {
     return 'Riwayat Transaksi Saya';
 })->name('pos.history');
+
+//===============Praktikum 7==================//
+Route::resource('categories', CategoryController::class);
+Route::resource('products', ProductController::class);
