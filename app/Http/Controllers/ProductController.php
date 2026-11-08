@@ -79,4 +79,21 @@ public function destroy(Product $product)
     return redirect()->route('products.index')->with('success', 'Produk berhasil dihapus.');
 }
 
+public function show(Product $product)
+{
+    $product->load(['transactionDetails.transaction']);
+ 
+    $totalTerjual = $product->transactionDetails->sum('qty');
+ 
+    $riwayat = $product->transactionDetails()
+        ->with('transaction')
+        ->latest()
+        ->take(10)
+        ->get();
+ 
+    return view('master-data.product.show', compact('product', 'totalTerjual', 'riwayat'));
+}
+
+
+
 }

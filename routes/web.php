@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UserController;
 Use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PosController;
  
 Route::get('/login', [LoginController::class, 'create'])
     ->middleware('guest')
@@ -56,3 +57,11 @@ Route::get('/pos/history', function () {
 //===============Praktikum 7==================//
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
+
+
+Route::middleware(['auth', 'role:admin,kasir'])->group(function () {
+    Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
+    Route::post('/pos', [PosController::class, 'store'])->name('pos.store');
+    Route::get('/pos/{transaction}/struk', [PosController::class, 'struk'])->name('pos.struk');
+});
+
