@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
+
 class CategoryController extends Controller
 {
     public function index()
@@ -62,5 +63,21 @@ public function destroy(Category $category)
         ->with('success', 'Kategori berhasil dihapus.');
 }
 
+//TUGAS PRAKTIKUM 11
+public function show(Category $category)
+{
+    $category->load([
+        'products' => function ($query) {
+            $query->orderBy('name');
+        }
+    ]);
+
+    $totalStock = $category->products->sum('stock');
+
+    return view('master-data.category.show', compact(
+        'category',
+        'totalStock'
+    ));
+}
 
 }

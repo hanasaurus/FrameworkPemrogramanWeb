@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -79,21 +80,46 @@ public function destroy(Product $product)
     return redirect()->route('products.index')->with('success', 'Produk berhasil dihapus.');
 }
 
+
 public function show(Product $product)
 {
-    $product->load(['transactionDetails.transaction']);
- 
+    // Memuat relasi produk
+    $product->load(['transactionDetails.transaction', 'category']);
+
+    // Menghitung total produk yang terjual
     $totalTerjual = $product->transactionDetails->sum('qty');
- 
+
+    // Mengambil 10 riwayat penjualan terakhir
     $riwayat = $product->transactionDetails()
         ->with('transaction')
         ->latest()
         ->take(10)
         ->get();
- 
-    return view('master-data.product.show', compact('product', 'totalTerjual', 'riwayat'));
+
+    // Mengambil 5 hari dengan penjualan tertinggi
+    $topSalesDays = DB::table('transaction_details')
+        ->join(
+            'transactions',
+            'transaction_details.transaction_id',
+            '=',
+            'transactions.id'
+        )
+        ->where('transaction_details.product_id', $product->id)
+        ->selectRaw('
+            DATE(transactions.created_at) as tanggal,
+            SUM(transaction_details.qty) as total_terjual
+        ')
+        ->groupByRaw('DATE(transactions.created_at)')
+        ->orderByDesc('total_terjual')
+        ->limit(5)
+        ->get();
+
+    return view('master-data.product.show', compact(
+        'product',
+        'totalTerjual',
+        'riwayat',
+        'topSalesDays'
+    ));
 }
-
-
 
 }

@@ -60,25 +60,31 @@
                                 </td>
 
                                 <td class="border p-3 text-center">
-                                    <a href="{{ route('categories.edit', $category) }}"
-                                       class="text-blue-600 mr-2">
-                                        Edit
-                                    </a>
+    {{-- Tombol Edit --}}
+    <a href="{{ route('categories.edit', $category) }}"
+       class="text-blue-600 hover:underline mr-2">
+        Edit
+    </a>
 
-                                    <form action="{{ route('categories.destroy', $category) }}"
-                                          method="POST"
-                                          class="inline"
-                                          onsubmit="return confirm('Yakin ingin menghapus kategori ini?')">
-                                        @csrf
-                                        @method('DELETE')
+    {{-- Tombol Detail --}}
+    <a href="{{ route('categories.show', $category) }}"
+       class="text-green-600 hover:underline mr-2">
+        Detail
+    </a>
 
-                                        <button type="submit"
-                                                class="text-red-600">
-                                            Hapus
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+    {{-- Tombol Hapus --}}
+    <form action="{{ route('categories.destroy', $category) }}"
+          method="POST"
+          class="inline"
+          onsubmit="return confirm('Yakin ingin menghapus kategori ini?')">
+        @csrf
+        @method('DELETE')
+
+        <button type="submit" class="text-red-600 hover:underline">
+            Hapus
+        </button>
+    </form>
+</td>
                         @empty
                             <tr>
                                 <td colspan="4" class="border p-4 text-center">

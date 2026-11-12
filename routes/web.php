@@ -50,14 +50,14 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 //==============TUGAS 5===================//
-Route::get('/pos/history', function () {
-    return 'Riwayat Transaksi Saya';
-})->name('pos.history');
+Route::middleware(['auth', 'role:kasir'])->group(function () {
+    Route::get('/pos/history', [PosController::class, 'history'])
+        ->name('pos.history');
+});
 
 //===============Praktikum 7==================//
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
-
 
 Route::middleware(['auth', 'role:admin,kasir'])->group(function () {
     Route::get('/pos', [PosController::class, 'index'])->name('pos.index');

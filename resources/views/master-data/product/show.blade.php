@@ -50,7 +50,51 @@
                 </table>
             </x-card>
         </div>
+       
+<div class="bg-white rounded-lg shadow p-5 mt-6">
+
+    <h3 class="text-lg font-semibold mb-4">
+        Peringkat Penjualan Harian
+    </h3>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
+            <thead>
+                <tr class="border-b bg-gray-50">
+                    <th class="p-3">Peringkat</th>
+                    <th class="p-3">Tanggal</th>
+                    <th class="p-3">Jumlah Terjual</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @forelse ($topSalesDays as $day)
+                    <tr class="border-b">
+                        <td class="p-3 font-semibold">
+                            {{ $loop->iteration }}
+                        </td>
+
+                        <td class="p-3">
+                            {{ \Carbon\Carbon::parse($day->tanggal)->format('d-m-Y') }}
+                        </td>
+
+                        <td class="p-3">
+                            {{ number_format($day->total_terjual) }}
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="3"
+                            class="p-4 text-center text-gray-500">
+                            Belum ada data penjualan.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
     </div>
 </x-app-layout>
-
-

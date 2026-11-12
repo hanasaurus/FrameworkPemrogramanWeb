@@ -5,6 +5,21 @@
  
     <div class="py-8"
          x-data="posCart({{ $products->toJson() }})">
+         @if (session('error'))
+    <div class="max-w-7xl mx-auto px-6 mb-4">
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            {{ session('error') }}
+        </div>
+    </div>
+@endif
+
+@if (session('success'))
+    <div class="max-w-7xl mx-auto px-6 mb-4">
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+            {{ session('success') }}
+        </div>
+    </div>
+@endif
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-6">
  
             <!-- Kolom kiri: pencarian & daftar produk -->
@@ -25,6 +40,7 @@
                     </div>
                 </x-card>
             </div>
+            
  
             <!-- Kolom kanan: keranjang belanja -->
             <div>
@@ -39,8 +55,8 @@
                                     <p x-text="item.name"></p>
                                     <p class="text-xs text-gray-500" x-text="formatRupiah(item.price) + ' x'"></p>
                                 </div>
-                                <input type="number" min="1" :max="item.stock" x-model.number="item.qty"
-                                    @input="clampQty(item)" class="w-16 rounded-md border-gray-300 text-center">
+                                <input type="number" min="1" x-model.number="item.qty"
+    class="w-16 rounded-md border-gray-300 text-center">
                                 <button type="button" @click="removeItem(index)" class="text-red-500 ml-2">&times;</button>
  
                                 <input type="hidden" :name="'items[' + index + '][product_id]'" :value="item.id">
