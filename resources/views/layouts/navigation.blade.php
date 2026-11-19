@@ -27,6 +27,12 @@
                                 Produk
                             </a>
 
+                            {{-- Menu Laporan Penjualan --}}
+                            <a href="{{ route('report.sales') }}"
+                                class="{{ request()->routeIs('report.*') ? 'text-indigo-600' : 'text-gray-500' }}">
+                                Laporan Penjualan
+                            </a>
+
                         @endif
 
                         {{-- Menu Transaksi --}}
